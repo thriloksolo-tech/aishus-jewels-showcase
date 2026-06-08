@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
 });
 
 const INSTAGRAM_URL = "https://www.instagram.com/aisuuuu___u?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==";
-const WHATSAPP_NUMBER = "919999999999"; // TODO: replace with real number
+const WHATSAPP_NUMBER = "918921408766";
 const waLink = (msg: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 
 function Index() {
@@ -59,9 +59,14 @@ function Index() {
             <a href="#order" className="hover:text-accent transition">How to Order</a>
             <a href="#contact" className="hover:text-accent transition">Contact</a>
           </nav>
-          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hidden sm:inline-flex items-center gap-2 text-sm border border-foreground/20 rounded-full px-4 py-2 hover:bg-foreground hover:text-background transition">
-            <Instagram className="w-4 h-4" /> Follow
-          </a>
+          <div className="hidden sm:flex items-center gap-2">
+            <a href={waLink("Hi Aishu! I'd love to know more about your collection.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm border border-foreground/20 rounded-full px-4 py-2 hover:bg-foreground hover:text-background transition">
+              <MessageCircle className="w-4 h-4" /> WhatsApp
+            </a>
+            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm border border-foreground/20 rounded-full px-4 py-2 hover:bg-foreground hover:text-background transition">
+              <Instagram className="w-4 h-4" /> Follow
+            </a>
+          </div>
         </div>
       </header>
 
