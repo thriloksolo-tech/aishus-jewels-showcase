@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
 });
 
 const INSTAGRAM_URL = "https://www.instagram.com/aisuuuu___u?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==";
-const WHATSAPP_NUMBER = "919999999999"; // TODO: replace with real number
+const WHATSAPP_NUMBER = "918921408766";
 const waLink = (msg: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 
 function Index() {
