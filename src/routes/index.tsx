@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import hero from "@/assets/hero-jewelry.jpg";
-import pNecklace from "@/assets/product-necklace.jpg";
-import pEarrings from "@/assets/product-earrings.jpg";
-import pBangles from "@/assets/product-bangles.jpg";
-import pRing from "@/assets/product-ring.jpg";
-import pMangal from "@/assets/product-mangalsutra.jpg";
-import { Instagram, MessageCircle, Sparkles, Heart, Shield, Truck } from "lucide-react";
+import { Instagram, MessageCircle, Sparkles, Heart, Shield, Truck, Lock } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { categoryFallbackImage, defaultFallback } from "@/lib/product-fallbacks";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,16 +22,28 @@ const INSTAGRAM_URL = "https://instagram.com/aishus_jewls_collection";
 const WHATSAPP_NUMBER = "919999999999"; // TODO: replace with real number
 const waLink = (msg: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 
-const products = [
-  { name: "Stardust Pendant", price: "₹2,499", img: pNecklace, tag: "New" },
-  { name: "Heritage Jhumkas", price: "₹3,899", img: pEarrings, tag: "Bestseller" },
-  { name: "Whisper Bangles (Set of 4)", price: "₹4,299", img: pBangles, tag: null },
-  { name: "Solitaire Promise Ring", price: "₹1,899", img: pRing, tag: "Dainty" },
-  { name: "Classic Mangalsutra", price: "₹5,499", img: pMangal, tag: "Traditional" },
-  { name: "Twilight Drop Pendant", price: "₹2,199", img: pNecklace, tag: null },
-];
-
 function Index() {
+  const { data: categories = [] } = useQuery({
+    queryKey: ["public-categories"],
+    queryFn: async () => {
+      const { data } = await supabase.from("categories").select("*").order("sort_order");
+      return data ?? [];
+    },
+  });
+  const { data: products = [] } = useQuery({
+    queryKey: ["public-products"],
+    queryFn: async () => {
+      const { data } = await supabase.from("products").select("*").eq("active", true).order("sort_order");
+      return data ?? [];
+    },
+  });
+
+  const imgFor = (p: { image_url: string | null; category_id: string | null }) => {
+    if (p.image_url) return p.image_url;
+    const slug = categories.find((c) => c.id === p.category_id)?.slug;
+    return (slug && categoryFallbackImage[slug]) || defaultFallback;
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Nav */}
@@ -99,27 +110,37 @@ function Index() {
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="text-sm underline underline-offset-4 hover:text-accent">See full catalogue on Instagram →</a>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.length === 0 && (
+              <div className="col-span-full text-center py-16 text-muted-foreground">No products yet — check back soon.</div>
+            )}
             {products.map((p) => (
-              <article key={p.name} className="group">
+              <article key={p.id} className="group">
                 <div className="relative overflow-hidden rounded-xl bg-secondary mb-4 aspect-[4/5]">
-                  <img src={p.img} alt={p.name} loading="lazy" width={800} height={1000} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
+                  <img src={imgFor(p)} alt={p.name} loading="lazy" width={800} height={1000} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
                   {p.tag && <span className="absolute top-3 left-3 text-[10px] uppercase tracking-widest bg-background/90 backdrop-blur px-3 py-1 rounded-full">{p.tag}</span>}
+                  {p.stock === 0 && <span className="absolute top-3 right-3 text-[10px] uppercase tracking-widest bg-foreground text-background px-3 py-1 rounded-full">Sold out</span>}
                 </div>
                 <div className="flex items-baseline justify-between">
                   <h3 className="text-xl">{p.name}</h3>
-                  <span className="text-accent font-medium">{p.price}</span>
+                  <span className="text-accent font-medium">₹{Number(p.price_inr).toLocaleString("en-IN")}</span>
                 </div>
+                {p.description && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{p.description}</p>}
                 <div className="mt-3 flex gap-2">
-                  <a href={waLink(`Hi! I'm interested in "${p.name}" (${p.price}). Is it available?`)} target="_blank" rel="noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 text-xs uppercase tracking-wider border border-foreground/20 rounded-full py-2.5 hover:bg-foreground hover:text-background transition">
+                  <a href={waLink(`Hi! I'm interested in "${p.name}" (₹${Number(p.price_inr).toLocaleString("en-IN")}). Is it available?`)} target="_blank" rel="noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 text-xs uppercase tracking-wider border border-foreground/20 rounded-full py-2.5 hover:bg-foreground hover:text-background transition">
                     <MessageCircle className="w-3.5 h-3.5" /> Enquire
                   </a>
-                  <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-foreground/20 hover:bg-foreground hover:text-background transition">
+                  <a href={p.instagram_url || INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-foreground/20 hover:bg-foreground hover:text-background transition">
                     <Instagram className="w-4 h-4" />
                   </a>
                 </div>
               </article>
             ))}
           </div>
+          {categories.length > 0 && (
+            <div className="mt-10 flex flex-wrap gap-2 justify-center text-xs uppercase tracking-wider text-muted-foreground">
+              {categories.map((c) => <span key={c.id} className="px-3 py-1 rounded-full bg-secondary">{c.name}</span>)}
+            </div>
+          )}
         </div>
       </section>
 
@@ -186,6 +207,7 @@ function Index() {
           <div className="flex gap-6">
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-accent">Instagram</a>
             <a href={waLink("Hi!")} target="_blank" rel="noreferrer" className="hover:text-accent">WhatsApp</a>
+            <Link to="/admin" className="hover:text-accent inline-flex items-center gap-1"><Lock className="w-3 h-3" /> Admin</Link>
           </div>
         </div>
       </footer>

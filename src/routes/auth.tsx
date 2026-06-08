@@ -1,0 +1,79 @@
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+export const Route = createFileRoute("/auth")({
+  head: () => ({ meta: [{ title: "Admin Sign In — Aishu's Jewl's Collection" }] }),
+  component: AuthPage,
+});
+
+function AuthPage() {
+  const navigate = useNavigate();
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) navigate({ to: "/admin" });
+    });
+  }, [navigate]);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      if (mode === "signup") {
+        const { error } = await supabase.auth.signUp({
+          email, password,
+          options: { emailRedirectTo: `${window.location.origin}/admin` },
+        });
+        if (error) throw error;
+        toast.success("Account created. Signing you in…");
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+      }
+      navigate({ to: "/admin" });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background px-6">
+      <div className="w-full max-w-md">
+        <Link to="/" className="block text-center mb-8 text-sm text-muted-foreground hover:text-foreground">← Back to store</Link>
+        <div className="bg-card border border-border rounded-2xl p-8 shadow-sm">
+          <h1 className="text-3xl mb-1">{mode === "signin" ? "Admin Sign In" : "Create Admin Account"}</h1>
+          <p className="text-sm text-muted-foreground mb-6">Manage your jewellery catalog.</p>
+          <form onSubmit={submit} className="space-y-4">
+            <div>
+              <label className="text-xs uppercase tracking-wider text-muted-foreground">Email</label>
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label className="text-xs uppercase tracking-wider text-muted-foreground">Password</label>
+              <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" />
+            </div>
+            <button disabled={loading} type="submit" className="w-full rounded-full py-3 text-sm font-medium text-primary-foreground disabled:opacity-50" style={{ background: 'var(--gradient-gold)' }}>
+              {loading ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
+            </button>
+          </form>
+          <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="mt-4 w-full text-center text-sm text-muted-foreground hover:text-foreground">
+            {mode === "signin" ? "New here? Create an account" : "Already have an account? Sign in"}
+          </button>
+          {mode === "signup" && (
+            <p className="mt-4 text-xs text-muted-foreground text-center">
+              After signing up, ask the database admin to grant you the <code>admin</code> role.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
