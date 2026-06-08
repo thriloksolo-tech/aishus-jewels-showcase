@@ -114,7 +114,7 @@ function Index() {
               <div className="col-span-full text-center py-16 text-muted-foreground">No products yet — check back soon.</div>
             )}
             {products.map((p) => (
-              <article key={p.name} className="group">
+              <article key={p.id} className="group">
                 <div className="relative overflow-hidden rounded-xl bg-secondary mb-4 aspect-[4/5]">
                   <img src={imgFor(p)} alt={p.name} loading="lazy" width={800} height={1000} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
                   {p.tag && <span className="absolute top-3 left-3 text-[10px] uppercase tracking-widest bg-background/90 backdrop-blur px-3 py-1 rounded-full">{p.tag}</span>}
