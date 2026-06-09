@@ -27,7 +27,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
         } bg-gray-800 text-white transition-all duration-300`}
       >
         <div className="p-6">
-          <h2 className="text-xl font-bold">Aishus Admin</h2>
+          <h2 className="text-xl font-bold">Aivora Collection's Admin</h2>
         </div>
         <nav className="space-y-2 px-4">
           <NavLink href="/admin/dashboard" label="Dashboard" />

@@ -37,7 +37,7 @@ export const AdminLoginForm = () => {
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
-          <CardDescription>Aishus Jewels Showcase Management</CardDescription>
+          <CardDescription>Aivora Collection's Management</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
