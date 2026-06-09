@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { LogOut, Plus, Trash2, Pencil, Save, X, Package, Tag } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
-  head: () => ({ meta: [{ title: "Admin — Aishu's Jewl's Collection" }] }),
+  head: () => ({ meta: [{ title: "Admin — Aivora Collection's" }] }),
   component: AdminPage,
 });
 
@@ -95,7 +95,7 @@ function AdminPage() {
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-2xl" style={{ fontFamily: 'var(--font-display)' }}>Catalog Admin</h1>
-            <p className="text-xs text-muted-foreground">Aishu's Jewl's Collection</p>
+            <p className="text-xs text-muted-foreground">Aivora Collection's</p>
           </div>
           <div className="flex gap-2">
             <Link to="/" className="text-sm rounded-full px-4 py-2 border border-foreground/20 hover:bg-foreground hover:text-background transition">View store</Link>
