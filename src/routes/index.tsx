@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const INSTAGRAM_URL = "https://www.instagram.com/aisuuuu___u?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==";
+const INSTAGRAM_URL = "https://www.instagram.com/aivora.in_/?utm_source=ig_web_button_share_sheet";
 const WHATSAPP_NUMBER = "918921408766";
 const waLink = (msg: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 
@@ -200,7 +200,7 @@ function Index() {
               <MessageCircle className="w-5 h-5" /> WhatsApp Us
             </a>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-8 py-4 border border-foreground/30 hover:bg-foreground hover:text-background transition">
-              <Instagram className="w-5 h-5" /> @aisuuuu___u
+              <Instagram className="w-5 h-5" /> @aivora.in_
             </a>
           </div>
         </div>
