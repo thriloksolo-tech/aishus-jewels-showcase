@@ -59,7 +59,7 @@ function Index() {
             <a href="#contact" className="hover:text-accent transition">Contact</a>
           </nav>
           <div className="hidden sm:flex items-center gap-2">
-            <a href={waLink("Hi Aivora! I'd love to know more about your collection.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm border border-foreground/20 rounded-full px-4 py-2 hover:bg-foreground hover:text-background transition">
+            <a href={waLink("Hi Aivora Collection's! I'd love to know more about your collection.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm border border-foreground/20 rounded-full px-4 py-2 hover:bg-foreground hover:text-background transition">
               <MessageCircle className="w-4 h-4" /> WhatsApp
             </a>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm border border-foreground/20 rounded-full px-4 py-2 hover:bg-foreground hover:text-background transition">
@@ -86,7 +86,7 @@ function Index() {
               <a href="#collection" className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-primary-foreground" style={{ background: 'var(--gradient-gold)', boxShadow: 'var(--shadow-luxe)' }}>
                 Explore Collection
               </a>
-              <a href={waLink("Hi Aivora! I'd love to know more about your collection.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm border border-foreground/30 hover:bg-foreground hover:text-background transition">
+              <a href={waLink("Hi Aivora Collection's! I'd love to know more about your collection.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm border border-foreground/30 hover:bg-foreground hover:text-background transition">
                 <MessageCircle className="w-4 h-4" /> Chat on WhatsApp
               </a>
             </div>
@@ -195,7 +195,7 @@ function Index() {
             Message us on WhatsApp or Instagram — we typically reply within a few hours.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href={waLink("Hi Aivora! I'd like to place an order.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-primary-foreground" style={{ background: 'var(--gradient-gold)', boxShadow: 'var(--shadow-luxe)' }}>
+            <a href={waLink("Hi Aivora Collection's! I'd like to place an order.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-primary-foreground" style={{ background: 'var(--gradient-gold)', boxShadow: 'var(--shadow-luxe)' }}>
               <MessageCircle className="w-5 h-5" /> WhatsApp Us
             </a>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-8 py-4 border border-foreground/30 hover:bg-foreground hover:text-background transition">
