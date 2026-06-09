@@ -9,9 +9,9 @@ import { Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Aishu's Jewl's Collection — Handpicked Jewellery" },
-      { name: "description", content: "Discover Aishu's Jewl's Collection — exquisite handpicked jewellery. Shop necklaces, earrings, bangles & more via Instagram & WhatsApp." },
-      { property: "og:title", content: "Aishu's Jewl's Collection" },
+      { title: "Aivora — Handpicked Jewellery" },
+      { name: "description", content: "Discover Aivora — exquisite handpicked jewellery. Shop necklaces, earrings, bangles & more via Instagram & WhatsApp." },
+      { property: "og:title", content: "Aivora" },
       { property: "og:description", content: "Exquisite handpicked jewellery, delivered with love." },
     ],
   }),
@@ -50,8 +50,8 @@ function Index() {
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/80 border-b border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
           <a href="#top" className="flex flex-col leading-none">
-            <span className="font-display text-2xl tracking-wide" style={{ fontFamily: 'var(--font-display)' }}>Aishu's</span>
-            <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Jewl's Collection</span>
+            <span className="font-display text-2xl tracking-wide" style={{ fontFamily: 'var(--font-display)' }}>Aivora</span>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Jewellery Collection</span>
           </a>
           <nav className="hidden md:flex gap-10 text-sm tracking-wide">
             <a href="#collection" className="hover:text-accent transition">Collection</a>
@@ -60,7 +60,7 @@ function Index() {
             <a href="#contact" className="hover:text-accent transition">Contact</a>
           </nav>
           <div className="hidden sm:flex items-center gap-2">
-            <a href={waLink("Hi Aishu! I'd love to know more about your collection.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm border border-foreground/20 rounded-full px-4 py-2 hover:bg-foreground hover:text-background transition">
+            <a href={waLink("Hi Aivora! I'd love to know more about your collection.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm border border-foreground/20 rounded-full px-4 py-2 hover:bg-foreground hover:text-background transition">
               <MessageCircle className="w-4 h-4" /> WhatsApp
             </a>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm border border-foreground/20 rounded-full px-4 py-2 hover:bg-foreground hover:text-background transition">
@@ -81,13 +81,13 @@ function Index() {
               Jewellery that <em className="text-accent">tells</em> your story.
             </h1>
             <p className="text-lg text-muted-foreground max-w-md mb-8">
-              Aishu's Jewl's Collection brings you timeless pieces — from everyday delicates to occasion statements. Shop directly through Instagram or WhatsApp.
+              Aivora brings you timeless pieces — from everyday delicates to occasion statements. Shop directly through Instagram or WhatsApp.
             </p>
             <div className="flex flex-wrap gap-3">
               <a href="#collection" className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-primary-foreground" style={{ background: 'var(--gradient-gold)', boxShadow: 'var(--shadow-luxe)' }}>
                 Explore Collection
               </a>
-              <a href={waLink("Hi Aishu! I'd love to know more about your collection.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm border border-foreground/30 hover:bg-foreground hover:text-background transition">
+              <a href={waLink("Hi Aivora! I'd love to know more about your collection.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm border border-foreground/30 hover:bg-foreground hover:text-background transition">
                 <MessageCircle className="w-4 h-4" /> Chat on WhatsApp
               </a>
             </div>
@@ -99,7 +99,7 @@ function Index() {
           </div>
           <div className="relative">
             <div className="absolute -inset-6 rounded-full blur-3xl opacity-40" style={{ background: 'var(--gradient-gold)' }} />
-            <img src={hero} alt="Featured jewellery from Aishu's collection" width={1600} height={1200} className="relative rounded-2xl shadow-2xl object-cover aspect-[4/5] w-full" />
+            <img src={hero} alt="Featured jewellery from Aivora's collection" width={1600} height={1200} className="relative rounded-2xl shadow-2xl object-cover aspect-[4/5] w-full" />
           </div>
         </div>
       </section>
@@ -155,7 +155,7 @@ function Index() {
           <div className="text-xs uppercase tracking-[0.3em] text-accent mb-4">Our Story</div>
           <h2 className="text-4xl md:text-5xl mb-6">A small studio, big on love.</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Started by Aishu with a simple wish — to bring beautiful, affordable jewellery to women who love to dress up every day. Each piece in our collection is personally selected for its craft, finish, and that little spark that makes it special.
+            Started with a simple wish — to bring beautiful, affordable jewellery to women who love to dress up every day. Each piece in the Aivora collection is personally selected for its craft, finish, and that little spark that makes it special.
           </p>
         </div>
       </section>
@@ -196,11 +196,11 @@ function Index() {
             Message us on WhatsApp or Instagram — we typically reply within a few hours.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href={waLink("Hi Aishu! I'd like to place an order.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-primary-foreground" style={{ background: 'var(--gradient-gold)', boxShadow: 'var(--shadow-luxe)' }}>
+            <a href={waLink("Hi Aivora! I'd like to place an order.")} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-primary-foreground" style={{ background: 'var(--gradient-gold)', boxShadow: 'var(--shadow-luxe)' }}>
               <MessageCircle className="w-5 h-5" /> WhatsApp Us
             </a>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-8 py-4 border border-foreground/30 hover:bg-foreground hover:text-background transition">
-              <Instagram className="w-5 h-5" /> @aishus_jewls_collection
+              <Instagram className="w-5 h-5" /> @aisuuuu___u
             </a>
           </div>
         </div>
@@ -208,7 +208,7 @@ function Index() {
 
       <footer className="border-t border-border/60 py-10">
         <div className="mx-auto max-w-7xl px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Aishu's Jewl's Collection. Crafted with love.</p>
+          <p>© {new Date().getFullYear()} Aivora. Crafted with love.</p>
           <div className="flex gap-6">
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-accent">Instagram</a>
             <a href={waLink("Hi!")} target="_blank" rel="noreferrer" className="hover:text-accent">WhatsApp</a>
