@@ -1,9 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { getAdminAccess } from "@/lib/admin.functions";
 import { toast } from "sonner";
 import { LogOut, Plus, Trash2, Pencil, Save, X, Package, Tag } from "lucide-react";
 
@@ -23,7 +21,6 @@ type Category = { id: string; name: string; slug: string; sort_order: number };
 function AdminPage() {
   const navigate = useNavigate();
   const qc = useQueryClient();
-  const checkAdminAccess = useServerFn(getAdminAccess);
   const [ready, setReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
@@ -31,16 +28,16 @@ function AdminPage() {
 
   useEffect(() => {
     (async () => {
-      try {
-        const access = await checkAdminAccess();
-        setUserId(access.userId);
-        setIsAdmin(access.isAdmin);
-        setReady(true);
-      } catch (error) {
-        navigate({ to: "/auth" });
-      }
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) { navigate({ to: "/auth" }); return; }
+      setUserId(user.id);
+
+      const { error: roleError } = await supabase.from("products").select("id").limit(1);
+      if (roleError) toast.error(roleError.message);
+      setIsAdmin(!roleError);
+      setReady(true);
     })();
-  }, [checkAdminAccess, navigate]);
+  }, [navigate]);
 
   const signOut = async () => {
     await supabase.auth.signOut();
