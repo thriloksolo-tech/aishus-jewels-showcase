@@ -28,10 +28,11 @@ function AdminPage() {
 
   useEffect(() => {
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) { navigate({ to: "/auth" }); return; }
-      setUserId(session.user.id);
-      const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", session.user.id);
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) { navigate({ to: "/auth" }); return; }
+      setUserId(user.id);
+      const { data: roles, error: roleError } = await supabase.from("user_roles").select("role").eq("user_id", user.id);
+      if (roleError) toast.error(roleError.message);
       setIsAdmin(!!roles?.some((r) => r.role === "admin"));
       setReady(true);
     })();
@@ -49,7 +50,7 @@ function AdminPage() {
       if (error) throw error;
       return data as Product[];
     },
-    enabled: ready,
+    enabled: ready && isAdmin,
   });
   const { data: categories } = useQuery({
     queryKey: ["admin-categories"],
@@ -58,7 +59,7 @@ function AdminPage() {
       if (error) throw error;
       return data as Category[];
     },
-    enabled: ready,
+    enabled: ready && isAdmin,
   });
 
   if (!ready) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading…</div>;
