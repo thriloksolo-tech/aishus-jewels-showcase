@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { LogOut, Plus, Trash2, Pencil, Save, X, Package, Tag } from "lucide-react";
+import { LogOut, Plus, Trash2, Pencil, Save, X, Package, Tag, Upload } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin — Aivora Collection's" }] }),
@@ -256,6 +256,26 @@ function ProductForm({ product, categories, isNew, onClose, onSaved }: { product
             <Field label="Tag (optional)"><input className="input" placeholder="New, Bestseller…" value={form.tag ?? ""} onChange={(e) => upd("tag", e.target.value)} /></Field>
           </div>
           <Field label="Image URL"><input className="input" placeholder="https://…" value={form.image_url ?? ""} onChange={(e) => upd("image_url", e.target.value)} /></Field>
+          <Field label="Or upload from your device">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const ext = file.name.split(".").pop() || "jpg";
+                const path = `${crypto.randomUUID()}.${ext}`;
+                const up = await supabase.storage.from("product-images").upload(path, file, { cacheControl: "31536000", upsert: false, contentType: file.type });
+                if (up.error) { toast.error(up.error.message); return; }
+                const signed = await supabase.storage.from("product-images").createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+                if (signed.error || !signed.data?.signedUrl) { toast.error(signed.error?.message || "Failed to get URL"); return; }
+                upd("image_url", signed.data.signedUrl);
+                toast.success("Image uploaded");
+                e.target.value = "";
+              }}
+              className="text-sm file:mr-3 file:rounded-full file:border-0 file:bg-foreground file:text-background file:px-4 file:py-1.5 file:text-xs file:cursor-pointer"
+            />
+          </Field>
           {form.image_url && <img src={form.image_url} alt="" className="h-32 rounded-lg object-cover border border-border" />}
           <Field label="Instagram post URL (optional)"><input className="input" placeholder="https://instagram.com/p/…" value={form.instagram_url ?? ""} onChange={(e) => upd("instagram_url", e.target.value)} /></Field>
           <div className="grid grid-cols-2 gap-4">
