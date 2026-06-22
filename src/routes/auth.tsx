@@ -10,7 +10,6 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,17 +24,8 @@ function AuthPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email, password,
-          options: { emailRedirectTo: `${window.location.origin}/admin` },
-        });
-        if (error) throw error;
-        toast.success("Account created. Signing you in…");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
       navigate({ to: "/admin" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
@@ -49,7 +39,7 @@ function AuthPage() {
       <div className="w-full max-w-md">
         <Link to="/" className="block text-center mb-8 text-sm text-muted-foreground hover:text-foreground">← Back to store</Link>
         <div className="bg-card border border-border rounded-2xl p-8 shadow-sm">
-          <h1 className="text-3xl mb-1">{mode === "signin" ? "Admin Sign In" : "Create Admin Account"}</h1>
+          <h1 className="text-3xl mb-1">Admin Sign In</h1>
           <p className="text-sm text-muted-foreground mb-6">Manage your jewellery catalog.</p>
           <form onSubmit={submit} className="space-y-4">
             <div>
@@ -61,17 +51,12 @@ function AuthPage() {
               <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" />
             </div>
             <button disabled={loading} type="submit" className="w-full rounded-full py-3 text-sm font-medium text-primary-foreground disabled:opacity-50" style={{ background: 'var(--gradient-gold)' }}>
-              {loading ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
+              {loading ? "Please wait…" : "Sign in"}
             </button>
           </form>
-          <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="mt-4 w-full text-center text-sm text-muted-foreground hover:text-foreground">
-            {mode === "signin" ? "New here? Create an account" : "Already have an account? Sign in"}
-          </button>
-          {mode === "signup" && (
-            <p className="mt-4 text-xs text-muted-foreground text-center">
-              After signing up, ask the database admin to grant you the <code>admin</code> role.
-            </p>
-          )}
+          <p className="mt-4 text-xs text-muted-foreground text-center">
+            Admin accounts are provisioned by the site owner. Contact them for access.
+          </p>
         </div>
       </div>
     </div>

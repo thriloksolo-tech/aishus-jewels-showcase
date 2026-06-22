@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import hero from "@/assets/hero-jewelry.jpg";
-import { Instagram, MessageCircle, Sparkles, Heart, Shield, Truck, Lock } from "lucide-react";
+import { Instagram, MessageCircle, Sparkles, Heart, Shield, Truck } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { categoryFallbackImage, defaultFallback } from "@/lib/product-fallbacks";
-import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { JewelSparkles, ShimmerGold } from "@/components/JewelSparkles";
 import {
@@ -281,7 +280,6 @@ function Index() {
           <div className="flex gap-6">
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-accent">Instagram</a>
             <a href={waLink("Hi!")} target="_blank" rel="noreferrer" className="hover:text-accent">WhatsApp</a>
-            <Link to="/admin" className="hover:text-accent inline-flex items-center gap-1"><Lock className="w-3 h-3" /> Admin</Link>
           </div>
         </div>
       </footer>
