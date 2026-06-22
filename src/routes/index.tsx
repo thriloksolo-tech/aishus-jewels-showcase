@@ -281,7 +281,6 @@ function Index() {
           <div className="flex gap-6">
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-accent">Instagram</a>
             <a href={waLink("Hi!")} target="_blank" rel="noreferrer" className="hover:text-accent">WhatsApp</a>
-            <Link to="/admin" className="hover:text-accent inline-flex items-center gap-1"><Lock className="w-3 h-3" /> Admin</Link>
           </div>
         </div>
       </footer>
