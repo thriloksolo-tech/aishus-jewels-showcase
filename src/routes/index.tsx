@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import hero from "@/assets/hero-jewelry.jpg";
-import { Instagram, MessageCircle, Sparkles, Heart, Shield, Truck, Lock } from "lucide-react";
+import { Instagram, MessageCircle, Sparkles, Heart, Shield, Truck } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { categoryFallbackImage, defaultFallback } from "@/lib/product-fallbacks";
-import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { JewelSparkles, ShimmerGold } from "@/components/JewelSparkles";
 import {
