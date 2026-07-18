@@ -1,0 +1,282 @@
+{
+  "version": 1,
+  "sdk_version": "0.23.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://rlcqqbmlzwrsnxzxoptd.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "aivora-collections-mcp",
+      "version": "0.1.0",
+      "title": "Aivora Collection's"
+    },
+    "tools": [
+      {
+        "name": "list_categories",
+        "title": "List categories",
+        "description": "List all jewellery categories in Aivora Collection's store.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_products",
+        "title": "List products",
+        "description": "List products in the Aivora Collection's catalog. Optionally filter by category slug, featured flag, in-stock only, or search text in the name.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "category_slug": {
+              "type": "string",
+              "description": "Filter by category slug (e.g. 'necklaces')."
+            },
+            "featured_only": {
+              "type": "boolean",
+              "description": "Only return featured products."
+            },
+            "in_stock_only": {
+              "type": "boolean",
+              "description": "Only return products with stock > 0."
+            },
+            "search": {
+              "type": "string",
+              "description": "Case-insensitive substring search on product name."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Max rows to return (default 50)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_product",
+        "title": "Get product",
+        "description": "Get a single product by its ID.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Product ID (UUID)."
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_product",
+        "title": "Create product",
+        "description": "Create a new product in the Aivora Collection's catalog. Admin only — enforced by database policies.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Product name."
+            },
+            "price_inr": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Price in INR."
+            },
+            "stock": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Units in stock."
+            },
+            "description": {
+              "type": "string"
+            },
+            "category_id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Category UUID (see list_categories)."
+            },
+            "image_url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "instagram_url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "tag": {
+              "type": "string",
+              "description": "Optional badge, e.g. 'New', 'Bestseller'."
+            },
+            "featured": {
+              "type": "boolean"
+            },
+            "active": {
+              "type": "boolean",
+              "description": "Whether the product is shown on the storefront."
+            }
+          },
+          "required": [
+            "name",
+            "price_inr"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_product",
+        "title": "Update product",
+        "description": "Update fields of an existing product (price, stock, name, description, availability, etc.). Admin only.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Product ID."
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "price_inr": {
+              "type": "number",
+              "minimum": 0
+            },
+            "stock": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "description": {
+              "type": "string"
+            },
+            "category_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "image_url": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uri"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "instagram_url": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uri"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tag": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "featured": {
+              "type": "boolean"
+            },
+            "active": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "delete_product",
+        "title": "Delete product",
+        "description": "Permanently delete a product from the catalog. Admin only. Prefer setting active=false to hide instead.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Product ID to delete."
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
