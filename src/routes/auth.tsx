@@ -5,20 +5,27 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: "Admin Sign In — Aivora Collection's" }] }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    next: typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : "",
+  }),
   component: AuthPage,
 });
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/admin" });
+      if (data.session) {
+        if (next) window.location.href = next;
+        else navigate({ to: "/admin" });
+      }
     });
-  }, [navigate]);
+  }, [navigate, next]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +33,8 @@ function AuthPage() {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      navigate({ to: "/admin" });
+      if (next) window.location.href = next;
+      else navigate({ to: "/admin" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
     } finally {
