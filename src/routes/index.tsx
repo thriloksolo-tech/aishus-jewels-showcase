@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { categoryFallbackImage, defaultFallback } from "@/lib/product-fallbacks";
 import { motion } from "framer-motion";
 import { JewelSparkles, ShimmerGold } from "@/components/JewelSparkles";
+import { AiChatWidget } from "@/components/AiChatWidget";
 import {
   FadeUp,
   ScaleIn,
@@ -290,6 +291,9 @@ function Index() {
           <MessageCircle className="w-6 h-6" />
         </a>
       </FloatingJewel>
+
+      {/* AI assistant */}
+      <AiChatWidget />
     </div>
   );
 }
