@@ -15,7 +15,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const handleLogout = async () => {
     await logout();
-    navigate({ to: '/admin/login' });
+    navigate({ to: '/auth', search: { next: '' } });
   };
 
   return (
@@ -30,7 +30,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
           <h2 className="text-xl font-bold">Aivora Collection's Admin</h2>
         </div>
         <nav className="space-y-2 px-4">
-          <NavLink href="/admin/dashboard" label="Dashboard" />
+          <NavLink href="/admin" label="Dashboard" />
           <NavLink href="/admin/products" label="Products" />
           <NavLink href="/admin/orders" label="Orders" />
           <NavLink href="/admin/customers" label="Customers" />

@@ -29,7 +29,7 @@ function AdminPage() {
   useEffect(() => {
     (async () => {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
-      if (userError || !user) { navigate({ to: "/auth" }); return; }
+      if (userError || !user) { navigate({ to: "/auth", search: { next: "" } }); return; }
       setUserId(user.id);
       const { data: roles, error: roleError } = await supabase.from("user_roles").select("role").eq("user_id", user.id);
       if (roleError) toast.error(roleError.message);
@@ -40,7 +40,7 @@ function AdminPage() {
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    navigate({ to: "/auth" });
+    navigate({ to: "/auth", search: { next: "" } });
   };
 
   const { data: products } = useQuery({

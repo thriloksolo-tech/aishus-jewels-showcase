@@ -22,7 +22,7 @@ export const AdminLoginForm = () => {
 
     try {
       await login(email, password);
-      navigate({ to: '/admin/dashboard' });
+      navigate({ to: '/admin' });
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'Failed to login. Please check your credentials.'
