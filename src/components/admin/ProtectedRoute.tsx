@@ -13,7 +13,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/auth" />;
+    return <Navigate to="/auth" search={{ next: "" }} />;
   }
 
   return <>{children}</>;
